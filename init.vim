@@ -14,8 +14,7 @@ map <leader>f :CocCommand prettier.formatFile<CR>
 map <leader>n :set number!<CR>
 map <leader>nn :set relativenumber!<CR>
 map <leader>v :NvimTreeToggle<cr>
-map <leader>vf :NvimTreeFindFileToggle<cr>
-map <leader>vb :NvimTreeFocus<cr>
+map <leader>b :NvimTreeFocus<cr>
 map <C-l> :BufferLineCycleNext<cr>
 map <C-h> :BufferLineCyclePrev<cr>
 set clipboard=unnamedplus
