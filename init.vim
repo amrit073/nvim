@@ -33,5 +33,40 @@ Plug 'nvim-tree/nvim-tree.lua'
 " Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 
 call plug#end()
+" Terminal Function
+let g:term_buf = 0
+let g:term_win = 0
+function! TermToggle(height)
+    if win_gotoid(g:term_win)
+        hide
+    else
+        botright new
+        exec "resize " . a:height
+        try
+            exec "buffer " . g:term_buf
+        catch
+            call termopen($SHELL, {"detach": 0})
+            let g:term_buf = bufnr("")
+            set nonumber
+            set norelativenumber
+            set signcolumn=no
+	    
+        endtry
+        startinsert!
+        let g:term_win = win_getid()
+	call CleanEmptyBuffers()
+
+    endif
+endfunction
+" Toggle terminal on/off (neovim)
+nnoremap <leader>t :call TermToggle(12)<CR>
+tnoremap <Esc> <C-\><C-n>
+
+function! CleanEmptyBuffers()
+    let buffers = filter(range(1, bufnr('$')), 'buflisted(v:val) && empty(bufname(v:val)) && bufwinnr(v:val)<0 && !getbufvar(v:val, "&mod")')
+    if !empty(buffers)
+        exe 'bw ' . join(buffers, ' ')
+    endif
+endfunction
 
 lua require('basic')
