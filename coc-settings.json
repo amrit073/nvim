@@ -1,2 +1,15 @@
-{  "coc.preferences.formatOnSaveFiletypes": ["css", "markdown"]
+{ 
+"coc.preferences.formatOnSaveFiletypes": ["css", "markdown"],
+"languageserver": {
+  "golang": {
+    "command": "gopls",
+    "filetypes": ["go"],
+    "initializationOptions": {
+      "gocodeCompletionEnabled": true,
+      "diagnosticsEnabled": true,
+      "formatTool": "gofmt"
+    },
+    "rootPatterns": ["go.mod"]
+  }
+}
 }

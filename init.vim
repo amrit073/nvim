@@ -4,8 +4,11 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
         \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     autocmd VimEnter * PlugInstall 
 endif
-
-
+let g:go_fmt_command = "golines"
+let g:go_fmt_options = {
+    \ 'golines': '-m 128',
+    \ }
+autocmd BufWritePre *.go :silent! lua require('go.format').gofmt()
 autocmd vimenter * ++nested colorscheme gruvbox 
 inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<TAB>"
 set mouse=a
@@ -17,6 +20,7 @@ map <leader>v :NvimTreeToggle<cr>
 map <leader>b :NvimTreeFocus<cr>
 map <C-l> :BufferLineCycleNext<cr>
 map <C-h> :BufferLineCyclePrev<cr>
+map \\ :noh<cr>
 set clipboard=unnamedplus
 call plug#begin()
 " here you'll add all the plugins needed
@@ -30,6 +34,7 @@ Plug 'maxmellon/vim-jsx-pretty'
 Plug 'morhetz/gruvbox'
 Plug 'nvim-tree/nvim-web-devicons' " optional, for file icons
 Plug 'nvim-tree/nvim-tree.lua'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 " Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 
 call plug#end()
@@ -69,4 +74,23 @@ function! CleanEmptyBuffers()
     endif
 endfunction
 
+function! GoFmt()
+  let saved_view = winsaveview()
+  silent %!gofmt
+  if v:shell_error > 0
+    cexpr getline(1, '$')->map({ idx, val -> val->substitute('<standard input>', expand('%'), '') })
+    silent undo
+    cwindow
+  endif
+  call winrestview(saved_view)
+endfunction
+
+command! GoFmt call GoFmt()
+
+augroup go_autocmd
+  autocmd BufWritePre *.go GoFmt
+augroup END
+
 lua require('basic')
+lua require('lspconfig').gopls.setup{}
+

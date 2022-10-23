@@ -3,10 +3,11 @@ vim.g.loaded_netrwPlugin = 1
 -- empty setup using defaults
 return require('packer').startup(function(use)
   -- Packer can manage itself
-	use 'wbthomason/packer.nvim'
+use 'wbthomason/packer.nvim'
 require("nvim-tree").setup()
 	vim.opt.termguicolors = true
 	use {'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons'}
+ 	use 'neovim/nvim-lspconfig'
 	require("bufferline").setup{
 		options = {
 		diagnostics = {
