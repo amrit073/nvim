@@ -11,5 +11,6 @@
     },
     "rootPatterns": ["go.mod"]
   }
-}
+},
+"coc.preferences.extensionUpdateCheck": "daily"
 }

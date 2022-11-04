@@ -8,7 +8,7 @@ let g:go_fmt_command = "golines"
 let g:go_fmt_options = {
     \ 'golines': '-m 128',
     \ }
-autocmd BufWritePre *.go :silent! lua require('go.format').gofmt()
+" autocmd BufWritePre *.go :silent! lua require('go.format').gofmt()
 autocmd vimenter * ++nested colorscheme gruvbox 
 inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<TAB>"
 set mouse=a
@@ -17,12 +17,13 @@ map <leader>f :CocCommand prettier.formatFile<CR>
 map <leader>n :set number!<CR>
 map <leader>nn :set relativenumber!<CR>
 map <leader>v :NvimTreeToggle<cr>
-map <leader>b :NvimTreeFocus<cr>
+map <leader>b <C-w>w
 map <C-l> :BufferLineCycleNext<cr>
 map <C-h> :BufferLineCyclePrev<cr>
 map \\ :noh<cr>
 set clipboard=unnamedplus
 call plug#begin()
+
 " here you'll add all the plugins needed
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier']  " list of CoC extensions needed
@@ -66,7 +67,10 @@ endfunction
 " Toggle terminal on/off (neovim)
 nnoremap <leader>t :call TermToggle(12)<CR>
 tnoremap <Esc> <C-\><C-n>
-
+vnoremap <leader>c :'<,'>norm i// <cr>
+nnoremap <leader>u ^xx$ 
+nnoremap <leader>c ^i//<C-\><C-n>j 
+vnoremap <leader>u :'<,'>norm xx <cr>
 function! CleanEmptyBuffers()
     let buffers = filter(range(1, bufnr('$')), 'buflisted(v:val) && empty(bufname(v:val)) && bufwinnr(v:val)<0 && !getbufvar(v:val, "&mod")')
     if !empty(buffers)
@@ -93,4 +97,5 @@ augroup END
 
 lua require('basic')
 lua require('lspconfig').gopls.setup{}
+lua require('coc')
 
