@@ -9,6 +9,25 @@ if empty(glob(' ~/.local/share/nvim/site/pack/packer/start/packer.nvim'))
     autocmd VimEnter * PackerInstall 
 endif
 
+call plug#begin()
+
+" here you'll add all the plugins needed
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier']  " list of CoC extensions needed
+Plug 'jiangmiao/auto-pairs' "this will auto close ( [ {
+" these two plugins will add highlighting and indenting to JSX and TSX files.
+Plug 'yuezk/vim-js'
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'maxmellon/vim-jsx-pretty'
+Plug 'morhetz/gruvbox'
+Plug 'nvim-tree/nvim-web-devicons' " optional, for file icons
+Plug 'nvim-tree/nvim-tree.lua'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+" Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
+
+call plug#end()
+
+lua require('basic')
 
 let g:go_fmt_command = "golines"
 let g:go_fmt_options = {
@@ -28,23 +47,7 @@ map <C-l> :BufferLineCycleNext<cr>
 map <C-h> :BufferLineCyclePrev<cr>
 map \\ :noh<cr>
 set clipboard=unnamedplus
-call plug#begin()
 
-" here you'll add all the plugins needed
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier']  " list of CoC extensions needed
-Plug 'jiangmiao/auto-pairs' "this will auto close ( [ {
-" these two plugins will add highlighting and indenting to JSX and TSX files.
-Plug 'yuezk/vim-js'
-Plug 'HerringtonDarkholme/yats.vim'
-Plug 'maxmellon/vim-jsx-pretty'
-Plug 'morhetz/gruvbox'
-Plug 'nvim-tree/nvim-web-devicons' " optional, for file icons
-Plug 'nvim-tree/nvim-tree.lua'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-" Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
-
-call plug#end()
 " Terminal Function
 let g:term_buf = 0
 let g:term_win = 0
@@ -101,7 +104,6 @@ augroup go_autocmd
   autocmd BufWritePre *.go GoFmt
 augroup END
 
-lua require('basic')
 lua require('lspconfig').gopls.setup{}
 lua require('coc')
 
