@@ -5,8 +5,7 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
     autocmd VimEnter * PlugInstall 
 endif
 if empty(glob(' ~/.local/share/nvim/site/pack/packer/start/packer.nvim'))
-    silent !git clone --depth 1 https://github.com/wbthomason/packer.nvim\
- ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+    silent !git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
     autocmd VimEnter * PackerInstall 
 endif
 
