@@ -100,10 +100,20 @@ endfunction
 
 command! GoFmt call GoFmt()
 
+function! Clang_format()
+    let save_cursor = getcurpos()
+    exe '%!clang-format -style=file'
+    call setpos('.', save_cursor)
+endfunc
+ 
+command! CFormat call Clang_format()
+
 augroup go_autocmd
   autocmd BufWritePre *.go GoFmt
 augroup END
-
+"autocmd BufWritePre *.c,*.cpp,*.h.*.o %!clang-format
+autocmd BufWritePre *.c,*.cpp,*.h.*.o CFormat
+autocmd BufWritePre *.js,*.ts,*.json CocCommand editor.action.formatDocument
 lua require('lspconfig').gopls.setup{}
 lua require('coc')
 
