@@ -16,19 +16,19 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier']  " list of CoC extensions needed
 Plug 'jiangmiao/auto-pairs' "this will auto close ( [ {
 " these two plugins will add highlighting and indenting to JSX and TSX files.
-Plug 'yuezk/vim-js'
-Plug 'HerringtonDarkholme/yats.vim'
-Plug 'maxmellon/vim-jsx-pretty'
+" Plug 'yuezk/vim-js'
+" Plug 'HerringtonDarkholme/yats.vim'
+" Plug 'maxmellon/vim-jsx-pretty'
 Plug 'morhetz/gruvbox'
 Plug 'nvim-tree/nvim-web-devicons' " optional, for file icons
 Plug 'nvim-tree/nvim-tree.lua'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 " Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
-
+" Plug 'mfussenegger/nvim-dap'
 call plug#end()
 
 lua require('basic')
-
+lua require('telescope').setup{  defaults = { file_ignore_patterns = { "node_modules" }} }
 let g:go_fmt_command = "golines"
 let g:go_fmt_options = {
     \ 'golines': '-m 128',
@@ -65,6 +65,8 @@ function! TermToggle(height)
             set nonumber
             set norelativenumber
             set signcolumn=no
+	    set nobuflisted
+	    
 	    
         endtry
         startinsert!
@@ -74,12 +76,16 @@ function! TermToggle(height)
     endif
 endfunction
 " Toggle terminal on/off (neovim)
-nnoremap <leader>t :call TermToggle(12)<CR>
+nnoremap <leader>t :call TermToggle(8)<CR>
 tnoremap <Esc> <C-\><C-n>
 vnoremap <leader>c :'<,'>norm i// <cr>
 nnoremap <leader>u ^xx$ 
 nnoremap <leader>c ^i//<C-\><C-n>j 
 vnoremap <leader>u :'<,'>norm xx <cr>
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 function! CleanEmptyBuffers()
     let buffers = filter(range(1, bufnr('$')), 'buflisted(v:val) && empty(bufname(v:val)) && bufwinnr(v:val)<0 && !getbufvar(v:val, "&mod")')
     if !empty(buffers)
@@ -113,7 +119,8 @@ augroup go_autocmd
 augroup END
 "autocmd BufWritePre *.c,*.cpp,*.h.*.o %!clang-format
 autocmd BufWritePre *.c,*.cpp,*.h.*.o CFormat
-autocmd BufWritePre *.js,*.ts,*.json CocCommand editor.action.formatDocument
+autocmd BufWritePre *.js,*.ts,*.json Format
 lua require('lspconfig').gopls.setup{}
 lua require('coc')
+" lua require('dap')
 
