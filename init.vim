@@ -86,13 +86,13 @@ nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+ "nnoremap x "_x
 function! CleanEmptyBuffers()
     let buffers = filter(range(1, bufnr('$')), 'buflisted(v:val) && empty(bufname(v:val)) && bufwinnr(v:val)<0 && !getbufvar(v:val, "&mod")')
     if !empty(buffers)
         exe 'bw ' . join(buffers, ' ')
     endif
 endfunction
-
 function! GoFmt()
   let saved_view = winsaveview()
   silent %!gofmt
