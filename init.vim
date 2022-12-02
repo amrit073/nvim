@@ -47,7 +47,7 @@ map <C-l> :BufferLineCycleNext<cr>
 map <C-h> :BufferLineCyclePrev<cr>
 map \\ :noh<cr>
 set clipboard=unnamedplus
-
+setlocal shiftwidth=2
 " Terminal Function
 let g:term_buf = 0
 let g:term_win = 0
@@ -66,6 +66,7 @@ function! TermToggle(height)
             set norelativenumber
             set signcolumn=no
 	    set nobuflisted
+	    set equalalways
 	    
 	    
         endtry
