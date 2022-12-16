@@ -8,7 +8,7 @@ if empty(glob(' ~/.local/share/nvim/site/pack/packer/start/packer.nvim'))
     silent !git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
     autocmd VimEnter * PackerInstall 
 endif
-
+set tabstop=2 shiftwidth=2
 call plug#begin()
 
 " here you'll add all the plugins needed
@@ -43,6 +43,7 @@ map <leader>n :set number!<CR>
 map <leader>nn :set relativenumber!<CR>
 map <leader>v :NvimTreeToggle<cr>
 map <leader>b <C-w>w
+map <leader>m <leader>bi!!<CR><C-\><C-n><leader>b
 map <C-l> :BufferLineCycleNext<cr>
 map <C-h> :BufferLineCyclePrev<cr>
 map \\ :noh<cr>
